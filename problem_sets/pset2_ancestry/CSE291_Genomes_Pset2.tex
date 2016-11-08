@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+
+% Imports
+\usepackage{hyperref}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{ctable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+% Paragraph spacing
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+
+% Default font
+\renewcommand*{\familydefault}{\sfdefault}
+
+% table lines
+\newcolumntype{?}{!{\vrule width 1pt}}
+
+% hyperlinks
+\hypersetup{
+  breaklinks=true,  % so long urls are correctly broken across lines
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=red,
+  citecolor=red,
+ }
+
+\begin{document}
+
+% Header info
+\textbf{CS 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS}
+
+\section*{Problem Set 2 - Ancestry}
+
+All homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS2:LASTNAME]} by the beginning of class on \textbf{Tuesday, January 24}. % TODO where to find data/tools
+
+\subsection*{Objectives}
+\begin{itemize}
+\item Determine ancestry in homogeneous and admixed genomes.
+\item Predict relationships between related samples.
+\item Impute missing variants using imputation from a reference panel.
+\end{itemize}
+
+\subsection*{Analyzing ancestry using principal components analysis}
+% Perform PCA on 1000 Genomes and plot first 2 PCs (with 3 samples held out), single chromosome
+% Question: 3 major clusters?
+% Question: what does 1st PC describe? 2nd PC?
+% Project 3 samples onto the PCs. What population do they fall in?
+% Run time with subset of samples, how does it scale?
+% Real world tools: smartpca, fastpca
+
+% TODO data:
+% 1KG VCF for chr16, minus 3 samples
+% List of samples/pop/color for held in samples
+% VCF and list of held out samples in separate file
+% Optional python skeleton 
+% - get vcf into matrix, normalize snps, perform PCA, plot first 2 Pcs colored
+% - option for number of samples to use, number of snps to use
+
+% NA10847 CEU
+% NA18923 YRI
+% NA19700 ASW
+
+\subsection*{Chromosome painting}
+
+\subsection*{Relative finding}
+
+\subsection*{Imputing missing variants}
+
+\end{document}
