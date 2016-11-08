@@ -1,0 +1,165 @@
+\documentclass[12pt]{article}
+
+% Imports
+\usepackage{hyperref}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{ctable}
+\usepackage{array}
+
+% Paragraph spacing
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+
+% Default font
+\renewcommand*{\familydefault}{\sfdefault}
+
+% table lines
+\newcolumntype{?}{!{\vrule width 1pt}}
+
+% hyperlinks
+\hypersetup{
+  breaklinks=true,  % so long urls are correctly broken across lines
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=red,
+  citecolor=red,
+ }
+
+\begin{document}
+
+% Header info
+\textbf{CS 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS} - TR 3:30-4:50 MCGIL 2315 \\
+\textbf{Instructors}: Melissa Gymrek OH: WF 3:00-4:50 CSE 4216 \\
+
+% Course description
+\section*{COURSE DESCRIPTION}
+Genome-sequencing is quickly becoming a commodity, and more than a million people have already analyzed their own genomes through direct-to-consumer companies. This course provides an introduction to current bioinformatics techniques for analyzing and interpreting human genomes. We will learn how to interpret a single genome in the context of an entire population, based on the often quoted concept: interpreting one genome requires tens of thousands of genomes. Topics covered include an introduction to human medical and population genetics, human ancestry, finding and interpreting disease-causing variants, genome-wide association studies, genetic risk prediction, analyzing next generation sequencing data, and how to scale current genomics techniques to analyze hundreds of thousands of genomes. We will also discuss the social impact of the personal genomics revolution.
+
+% Characteristics of class meetings
+Class meetings will consist of short lectures, journal club discussions, and hands on experience using and developing bioinformatics methods. All details of the course will be posted at the course website:\\
+\href{https://gymreklab.github.io/teaching/personal\_genomics/personal\_genomics_2017.html}{https://gymreklab.github.io/teaching/personal\_genomics/personal\_genomics\_2017.html}
+
+
+% Point to course website
+
+% course content
+% Learning objectives. e.g. by end of the course
+% Characteristics of class meetings
+% Logistics
+% point to github or course website on e.g. piazza?
+
+% Schedule
+\section*{SCHEDULE}
+% table with modules, lectures, homeworks
+% use TTh starting 
+
+\begin{table}[h!]
+\begin{tabular}{l|l|l|l}
+\specialrule{.2em}{.1em}{.1em} 
+\textbf{Module} & \textbf{Date} & \textbf{Lecture} & \textbf{Homework} \\
+% Module 1
+\specialrule{.2em}{.1em}{.1em} 
+Intro to personal genomics & 01-05 (Th) & Introduction to your genome & PS1 out \\
+\cline{2-4} 
+& 01-10 (T) & Social impact of personal genomics & PS1 due \\
+
+% Module 2
+\specialrule{.2em}{.1em}{.1em} 
+What can I do with my genome? & 01-12 (Th) & Basic population genetics & PS2 out \\
+\cline{2-4}
+& 01-17 (T) & Determining ancestry &  \\
+\cline{2-4} 
+& 01-19 (Th) & Phasing and imputation &  \\
+\cline{2-4} 
+& 01-24 (T) & Web 2.0 Genomics & PS2 due\\
+
+% Module 3
+\specialrule{.2em}{.1em}{.1em} 
+Complex traits & 01-26 (Th) & Introduction to GWAS & PS4 out \\
+\cline{2-4}
+& 01-31 (T) & Controlling for confounders & Project out \\
+\cline{2-4} 
+& 02-02 (Th) & Scaling GWAS to millions of genomes &  \\
+\cline{2-4} 
+& 02-07 (T) & Missing heritability & PS4 due \\
+
+% Module 4
+\specialrule{.2em}{.1em}{.1em} 
+Next-gen sequencing and big data & 02-09 (Th) & Introduction to NGS & PS5 out\\
+\cline{2-4}
+& 02-14 (T) & Short read alignment strategies & Proposal due \\
+\cline{2-4}
+& 02-16 (Th) & Variant calling from NGS &  \\
+\cline{2-4} 
+& 02-21 (T) & Functional genomics - RNAseq, ChIPseq & PS5 due \\
+\cline{2-4} 
+& 02-23 (Th) & Storing, querying, visualization & \\
+ \cline{2-4} 
+& 02-28 (T) & Long read sequencing technologies &  \\
+
+% Module 5
+\specialrule{.2em}{.1em}{.1em} 
+Mutation hunting & 03-02 (Th) & Introduction to genetic mapping & PS3 out \\
+ \cline{2-4} 
+& 03-07 (T) & Filtering and prioritizing variants &  \\
+\cline{2-4}
+& 03-09 (Th) & \emph{De novo} mutations and constraint &  \\
+ \cline{2-4} 
+& 03-14 (T) & Interpreting non-coding variants & PS3 due \\
+
+\specialrule{.2em}{.1em}{.1em} 
+Final Project & 03-16 (Th) & Project presentations & Project due \\
+\specialrule{.2em}{.1em}{.1em} 
+\end{tabular}
+\end{table}
+
+% Genotyping FAQ
+\section*{GENOTYPING FAQ}
+The goal of this course is to teach you how to analyze your genome. At this time, we are not able to provide genotyping or sequencing services to students, and instead homeworks will be performed on publicly available human genomes. 
+
+You are welcome to analyze your own genome using a direct-to-consumer service such as 23andme or Ancestry.com. I recommend 23andme, which performs SNP genotyping arrays for \$200. You will also get access to a range of fun tools on their website that will complement some of the analyses we do in class. Homeworks for modules 1-3 are built to analyze the type of data available from 23andme. 
+
+Please keep in mind the following:
+\begin{itemize}
+\item It is \textbf{NOT} required that you analyze your own genome. Your grade is in no way influenced by whether or not you participate in 23andme.
+\item To ensure the previous point, \textbf{do not tell me whether you are analyzing your own genome.}
+\item If you do 23andme, it is at your own risk and at your expense. We do not have funding to pay for the test.
+\item While you are free to analyze your genome, you must still complete the homework assignments with the provided genomes as well.
+\item 23andme can take up to six weeks to get your data back, so sign up early.
+\end{itemize}
+% waiver, payment, counseling, anonymity
+
+% Resources
+%\section*{RESOURCES}
+% textbooks
+% computational
+
+% Homework
+\section*{GRADING}
+\begin{table}[h!]
+\begin{tabular}{l|l}
+\specialrule{.2em}{.1em}{.1em} 
+\textbf{Component} & \textbf{Percentage} \\
+\specialrule{.2em}{.1em}{.1em}
+Participation & 10\% \\
+Attendance & 10\% \\
+PS1 & 5\% \\
+PS2 & 10\% \\
+PS3 & 10\% \\
+PS4 & 10\% \\
+PS5 & 10\% \\
+Project proposal & 5\% \\
+Final project & 35\% \\
+\specialrule{.2em}{.1em}{.1em} 
+ & \textbf{100\%} \\
+\specialrule{.2em}{.1em}{.1em} 
+\end{tabular}
+\end{table}
+
+% Policies
+%\section*{POLICIES}
+% academic integrity
+% disability
+% disclaimer
+
+\end{document}

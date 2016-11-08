@@ -1,0 +1,11 @@
+*.aux
+*~
+*.fdb_latexmk
+*.log
+*.fls
+*.out
+*.synctex.gz
+*.DS_Store
+pset1_figures.pdf
+data/
+testdata/
