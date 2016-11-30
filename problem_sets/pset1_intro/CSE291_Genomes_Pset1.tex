@@ -30,21 +30,16 @@
 \begin{document}
 
 % Header info
-\textbf{CS 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS}
+\textbf{CSE 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS}
 
 \section*{Problem Set 1 - Introduction to human genomes}
 
-All homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS1:LASTNAME]} by the beginning of class on \textbf{Tuesday, January 10}. % TODO where to find data/tools
-% module load bedtools
-% module load tabix
-% module load bcftools
-% module load python # to get python2.7
-% PyVCF install?
+All homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS1:LASTNAME]} by the beginning of class on \textbf{Tuesday, January 10}. 
 
 \subsection*{Objectives}
 \begin{itemize}
 \item Review human genetics concepts.
-\item Get comfortable with standard file formats and tools for analyzing genomes.
+\item Get comfortable using the SDSC cluster and with standard file formats and tools for analyzing genomes.
 \end{itemize}
 
 \subsection*{Exercises}
@@ -82,16 +77,16 @@ All homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{pur
 \includegraphics[width=150px]{pset1dominant.png}
 \end{figure}
 
-\item Download \href{https://gymreklab.github.io/teaching/personal\_genomics/ps1\_introduction.html}{PS1 data} from the course website. First, we'll get familiar with the VCF file format. For full details of VCF format, see \href{https://samtools.github.io/hts-specs/VCFv4.2.pdf}{here}. Look at the file \textcolor{purple}{pset1\_1000Genomes\_chr16.vcf}.
+\item Navigate to \href{https://gymreklab.github.io/teaching/personal\_genomics/ps1\_introduction.html}{PS1 resources} on the course website, which describes where you can find data files on the comet cluster. First, we'll get familiar with the VCF file format. For full details of VCF format, see \href{https://samtools.github.io/hts-specs/VCFv4.2.pdf}{here}. Copy the file \textcolor{purple}{pset1\_1000Genomes\_chr16.vcf} to your own directory (it is small).
 \begin{itemize}
 \item Lines at the top of the file marked with ``\#\#'' indicate the header. What build of the human reference genome is used in this file?
-\item Look at the first entry (16:31002227). What is the reference allele? What is the alternate allele? What is the rsid?
-\item What is the HG00099's genotype at this position (CC, CA, or AA?).
+\item Look at the first entry (16:31002227). What is the reference allele? What is the alternate allele? What is the rsid? You can view more about a specific rsid at dbSNP: https://www.ncbi.nlm.nih.gov/snp/?term=rs569316018.
+\item What is HG00099's genotype at this position (CC, CA, or AA?).
 \end{itemize}
 
 \item Individual HG00097 comes to the hospital with a blood clot. The doctor would like to treat the patient with warfarin, but is trying to figure out the correct dose. Studies have shown that \href{https://www.snpedia.com/index.php/Rs8050894}{SNP rs8050894 is associated with warfarin dosage}. Individuals with genotypes CC, CG, and GG are recommended to get 2.5, 5, and 6.5 mg/day respectively. We would like to determine the correct dose for our patient.
 
-VCF genomes can be quite large (the VCF file for the ExAC dataset is more than 1TB!). If we want to query a specific location of the genome, it would be inefficient to scan the entire file. \textcolor{purple}{tabix} offers utilities to build an index for VCF (and other) files to enable quick access to a specific location. Use the tabix utility to index the VCF file with the following command:
+VCF genomes can be quite large (the VCF file for the ExAC dataset is more than 1TB!). If we want to query a specific location of the genome, it would be inefficient to scan the entire file. \textcolor{purple}{tabix} offers utilities to build an index for VCF (and other) files to enable quick access to a specific location. Use the tabix utility to index the VCF file with the following commands:
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} bgzip pset1\_1000Genomes\_chr16.vcf
 \color{purple} tabix -p vcf pset1\_1000Genomes\_chr16.vcf.gz
@@ -104,14 +99,13 @@ Now, use the tabix utility to pull out our SNP of interest:
 
 What dose should the doctor give to HG00097? What about HG00099 and HG00103?
 
-\item The doctor now wonders whether HG00097 has other variants in VKOR1C. We would like to determine whether the individual has any mutations in the protein-coding sequence of this gene. Luckily, we have a file VKORC1\_exons\_NM\_001311311.bed listing the genomic coordinates of each exon. This is an example of a BED file, which gives the chromosome, start coordinate, and end coordinate of each interval.
+\item The doctor now wonders whether HG00097 has other variants in \emph{VKOR1C}. We would like to determine whether the individual has any mutations in the protein-coding sequence of this gene. Luckily, we have a file VKORC1\_exons\_NM\_001311311.bed listing the genomic coordinates of each exon. This is an example of a BED file, which gives the chromosome, start coordinate, and end coordinate of each interval.
 
 Intersecting genomic intervals is an extremely common task. \textcolor{purple}{bedtools} contains many utilities for working with BED files. Use the \textcolor{purple}{intersectBed} utility to look at all positions falling within the given intervals.
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} intersectBed -a pset1_1000Genomes_chr16.vcf.gz -b VKORC1\_exons_NM\_001311311.bed
 \end{Verbatim}
-
-Does HG00097 have any variants from the reference genome in exons of VKOR1C?
+(You'll have to edit the above to include full paths to the VCF and BED file). Does HG00097 have any variants from the reference genome in exons of VKOR1C?
 % 16	31102321	rs7294 1|0
 
 \end{enumerate}
