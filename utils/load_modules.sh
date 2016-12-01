@@ -8,6 +8,7 @@
 
 module load bcftools/1.3
 module load bedtools/2.25.0
+module load plink/1.9
 module load python/2.7.10
 module load scipy/2.7
 module load vcftools/0.1.14
