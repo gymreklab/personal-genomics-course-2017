@@ -1,4 +1,4 @@
-#!/bin/bash
+B1;2c#!/bin/bash
 
 #SBATCH -A csd524
 #SBATCH -p compute
@@ -18,7 +18,14 @@ tabix -f -p vcf ${PREFIX}.all.vcf.gz
 intersectBed -a ${PREFIX}.all.vcf.gz -b ${DATADIR}/23andme_snps_hg19.bed.gz -header | bgzip -c > \
     ${PREFIX}.subset.vcf.gz
 tabix -f -p vcf ${PREFIX}.subset.vcf.gz
+intersectBed -a ${PREFIX}.all.vcf.gz -b ${DATADIR}/23andme_snps_hg19.bed.gz -header -v | bgzip -c > \
+    ${PREFIX}.heldout.vcf.gz
+tabix -f -p vcf ${PREFIX}.heldout.vcf.gz
 
 # Convert to gens file for IMPUTE2
 vcf2impute_gen -vcf ${PREFIX}.subset.vcf.gz \
     -gen ${PREFIX}.subset.gen.gz 
+
+# Convert heldout to gens file for IMPUTE2 to compare
+vcf2impute_gen -vcf ${PREFIX}.heldout.vcf.gz \
+    -gen ${PREFIX}.heldout.gen.gz 

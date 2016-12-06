@@ -30,6 +30,11 @@ plink --vcf ${PREFIX}.lwk.vcf.gz \
     --cm-map ${DATADIR}/imputation/1000GP_Phase3/genetic_map_chr@_combined_b37.txt \
     --make-bed \
     --out ${PREFIX}.lwk
+plink --bfile ${PREFIX}.lwk --recode12 --out ${PREFIX}.lwk
+
+# Extract controls/families lists
+cat 20120220_cryptic_relations_summary.txt | grep LWK | grep -v ";" | cut -f 1 | sort | uniq > LWK.controls
+cat 20120220_cryptic_relations_summary.txt | grep LWK | grep ";" | cut -f 1 | sort | uniq > LWK.families
 
 # Remove chrom files
 rm ${PREFIX}_*.vcf.gz
