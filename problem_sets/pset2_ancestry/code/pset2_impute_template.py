@@ -42,22 +42,8 @@ legend = pd.read_csv(legendfile, sep=" ")
 # merge
 data = pd.merge(impres, legend, on=["position"])
 
-# Annotate best gt and score for each panel
-def GetGenotype(x00, x01, x11):
-    genotypes = [0, 1, 2]
-    scores = [x00, x01, x11]
-    ind = scores.index(max(scores))
-    return genotypes[ind]
-
+############
+# TODO
 # Get r2 for each reference panel
-data["truth_gt"] = data.apply(lambda x: GetGenotype(x["truth_00"], x["truth_01"], x["truth_11"]), 1)
-for refpanel in ["ceu", "yri", "ceu_yri", "not_asw"]:
-    data["%s_gt"%refpanel] = data.apply(lambda x: GetGenotype(x["%s_00"%refpanel], x["%s_01"%refpanel], x["%s_11"%refpanel]), 1)
-    data["%s_score"%refpanel] = data.apply(lambda x: max([x["%s_00"%refpanel], x["%s_01"%refpanel],x["%s_11"%refpanel]]), 1)
-    print refpanel, pearsonr(data["truth_gt"], data["%s_gt"%refpanel]), data.shape[0]
-
 # Get r2 for different MAF thresholds
-thresh = [0, 0.0001, 0.001, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
-for t in thresh:
-    x = data[data["ALL"] <= t]
-    print t, pearsonr(x["truth_gt"], x["not_asw_gt"]), np.median(x["not_asw_score"])
+
