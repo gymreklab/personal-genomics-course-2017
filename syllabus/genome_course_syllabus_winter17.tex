@@ -37,91 +37,34 @@
 % Header info
 \textbf{CSE 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS} - TR 3:30-4:50 MCGIL 2315 \\
 \textbf{Instructors}: Melissa Gymrek OH: M 3:00-4:50, W 4:00-4:50 CSE 4216 \\
+\textbf{Contact}: mgymrek@ucsd.edu \\
 
 % Course description
 \section*{COURSE DESCRIPTION}
 Genome-sequencing is quickly becoming a commodity, and more than a million people have already analyzed their own genomes through direct-to-consumer companies. This course provides an introduction to current bioinformatics techniques for analyzing and interpreting human genomes. We will learn how to interpret a single genome in the context of an entire population, based on the often quoted concept: \emph{interpreting one genome requires tens of thousands of genomes}. Topics covered include an introduction to human medical and population genetics, human ancestry, finding and interpreting disease-causing variants, genome-wide association studies, genetic risk prediction, analyzing next generation sequencing data, and how to scale current genomics techniques to analyze hundreds of thousands of genomes. We will also discuss the social impact of the personal genomics revolution.
 
-% Characteristics of class meetings
-Class meetings will consist of short lectures, journal club discussions, and hands on experience using and developing bioinformatics methods. All details of the course will be posted at the course website:\\
-\href{https://gymreklab.github.io/teaching/personal\_genomics/personal\_genomics_2017.html}{https://gymreklab.github.io/teaching/personal\_genomics/personal\_genomics\_2017.html}
-
 % prereqs
+\subsection*{Prerequisites}
 There are no official prerequisites for this course, but it is assumed students have some programming experience and are familiar with using the UNIX command line.
 
+\subsection*{Course objectives}
+Though this course students will:
+\begin{itemize}
+\setlength\itemsep{0.0em}
+\item Gain basic bioinformatics skills needed to analyze a personal genome using the UNIX command line.
+\item Gain the ability to critically read and interpret basic science and translational literature relevant to personal genomics.
+\item Demonstrate knowledge and understanding of the social impacts of the personal genomics revolution.
+\item Gain skills and experience necessary to carry out original research related to personal genomics.
+\end{itemize}
 
-% Point to course website
+\subsection*{Course structure}
+The course will consist of 5 modules: Intro to personal genomics, What can I do with my genome?, Complex traits, Next-generation sequencing, and mutation hunting. Each module will have a corresponding problem set due at the end of the module. In addition, each student will work in a group to complete a final project, described below.
 
-% course content
-% Learning objectives. e.g. by end of the course
+\subsection*{Course sessions}
 % Characteristics of class meetings
-% Logistics
-% point to github or course website on e.g. piazza?
+Class meetings will consist of two sections separated by a short 5 minute break. The first section will usually consist of a lecture (45 minutes). The second session (30 minutes) will consist either of a journal club discussion or hands on experience using and developing bioinformatics methods. All details of the course will be posted at the course website:\\
+\href{https://gymreklab.github.io/teaching/personal\_genomics/personal\_genomics_2017.html}{https://gymreklab.github.io/teaching/personal\_genomics/personal\_genomics\_2017.html}
 
-% Schedule
-\section*{SCHEDULE}
-% table with modules, lectures, homeworks
-% use TTh starting 
-
-\begin{table}[h!]
-\begin{tabular}{l|l|l|l}
-\specialrule{.2em}{.1em}{.1em} 
-\textbf{Module} & \textbf{Date} & \textbf{Lecture} & \textbf{Homework} \\
-% Module 1
-\specialrule{.2em}{.1em}{.1em} 
-Intro to personal genomics & 01-05 (Th) & Introduction to your genome & PS1 out \\
-\cline{2-4} 
-& 01-10 (T) & Social impact of personal genomics & PS1 due \\
-
-% Module 2
-\specialrule{.2em}{.1em}{.1em} 
-What can I do with my genome? & 01-12 (Th) & Basic population genetics & PS2 out \\
-\cline{2-4}
-& 01-17 (T) & Determining ancestry &  \\
-\cline{2-4} 
-& 01-19 (Th) & Phasing and imputation &  \\
-\cline{2-4} 
-& 01-24 (T) & Web 2.0 Genomics & PS2 due\\
-
-% Module 3
-\specialrule{.2em}{.1em}{.1em} 
-Complex traits & 01-26 (Th) & Introduction to GWAS & PS3 out \\
-\cline{2-4}
-& 01-31 (T) & Advanced GWAS topics & Project out \\
-\cline{2-4} 
-& 02-02 (Th) & Guest lecture TBD &  \\
-\cline{2-4} 
-& 02-07 (T) & Scaling GWAS to millions of genomes & PS3 due \\
-
-% Module 4
-\specialrule{.2em}{.1em}{.1em} 
-Next-gen sequencing (NGS) & 02-09 (Th) & Introduction to NGS & PS4 out\\
-\cline{2-4}
-& 02-14 (T) & Short read alignment strategies & Proposal due \\
-\cline{2-4}
-& 02-16 (Th) & Variant calling from NGS &  \\
-\cline{2-4} 
-& 02-21 (T) & Functional genomics - RNAseq, ChIPseq & PS4 due \\
-\cline{2-4} 
-& 02-23 (Th) & Storing, querying, visualization & \\
- \cline{2-4} 
-& 02-28 (T) & Long read sequencing technologies &  \\
-
-% Module 5
-\specialrule{.2em}{.1em}{.1em} 
-Mutation hunting & 03-02 (Th) & Introduction to genetic mapping & PS5 out \\
- \cline{2-4} 
-& 03-07 (T) & Filtering and prioritizing variants &  \\
-\cline{2-4}
-& 03-09 (Th) & \emph{De novo} mutations and constraint &  \\
- \cline{2-4} 
-& 03-14 (T) & Interpreting non-coding variants & PS5 due \\
-
-\specialrule{.2em}{.1em}{.1em} 
-Final Project & 03-16 (Th) & Project presentations & Project due \\
-\specialrule{.2em}{.1em}{.1em} 
-\end{tabular}
-\end{table}
 
 % Genotyping FAQ
 \section*{GENOTYPING FAQ}
@@ -136,6 +79,13 @@ Please keep in mind the following:
 \item While you are free to analyze your genome, you must still complete the homework assignments with the provided genomes as well.
 \item 23andme can take up to six weeks, so sign up early if you want to use it during class.
 \end{itemize}
+% Point to course website
+
+% course content
+% Learning objectives. e.g. by end of the course
+% Characteristics of class meetings
+% Logistics
+% point to github or course website on e.g. piazza?
 
 % Resources
 \section*{RESOURCES}
@@ -143,11 +93,17 @@ All resources including readings, problem sets, the final project, and how to us
 
 % Homework
 \section*{GRADING}
-Your grade will be based on participation (10\%), attendance (10\%), problem sets (45\% total), and a final project (35\%).
+Your grade will be based on participation (10\%), attendance (10\%), problem sets (45\% total), and a final project (35\%). Attendance is mandatory and attendance will be taken.
 
 There will be one problem set for each module that will mostly involve performing analyses on genomes using existing tools. PS1 is worth 5\%. The other problem sets are worth 10\% each. Late problem sets will lose one point for each day past the due date.
 
-The final project will consist of a proposal (5\%), paper (20\%), and presentation (10\%). Students will work in pairs to either design a new bioinformatics tool for analyzing human genomes, performing analysis, or exploring a theoretical problem. Projects and problem sets are described in detail on the course website.
+The final project will consist of a proposal (5\%), paper (20\%), and presentation (10\%). Students will work in pairs to either design a new bioinformatics tool for analyzing human genomes, perform an analysis, or explore a theoretical problem. Projects and problem sets are described in detail on the course website.
+
+Final grades will be out of 100 points. $\geq$70 points is passing. If you are taking the course for a letter grade, we will use the following scale: 
+A+:97-100, A:93-96, A-:90-92,
+B+:87-89, B:83-86, B-:80-82,
+C+:77-79, C:73-76, C-:70-72,
+F:0-69.
 
 % Policies
 \section*{POLICIES}
@@ -161,5 +117,69 @@ If you have a disability for which you are or may be requesting accommodations, 
 % disclaimer
 \subsection*{Disclaimer}
 While we have every intention of following this syllabus, any information here is subject to change. 
+
+\pagebreak
+% Schedule
+\section*{SCHEDULE}
+% table with modules, lectures, homeworks
+% use TTh starting 
+
+\begin{table}[h!]
+\begin{tabular}{l|l|l|l}
+\specialrule{.2em}{.1em}{.1em} 
+\textbf{Module} & \textbf{Date} & \textbf{Lecture} & \textbf{Homework} \\
+
+% Module 1
+\specialrule{.2em}{.1em}{.1em} 
+Intro to personal genomics & 01-10 (T) & Introduction to your genome & PS1 out \\
+
+% Module 2
+\specialrule{.2em}{.1em}{.1em} 
+What can I do with my genome? & 01-12 (Th) & Basic population genetics & PS1 due, PS2 out \\
+\cline{2-4}
+& 01-17 (T) & Determining ancestry &  \\
+\cline{2-4} 
+& 01-19 (Th) & Phasing and imputation &  \\
+\cline{2-4} 
+& 01-24 (T) & Web 2.0 Genomics & \\
+\cline{2-4} 
+& 01-26 (Th) & Social impact of personal genomics & PS2 due \\
+
+% Module 3
+\specialrule{.2em}{.1em}{.1em} 
+Complex traits & 01-31 (T) & Introduction to GWAS & PS3 out \\
+\cline{2-4}
+& 02-02 (Th) & Guest lecture TBD &  \\
+\cline{2-4} 
+& 02-07 (T) & Advanced GWAS topics & Project out \\
+\cline{2-4} 
+& 02-09 (Th) & Scaling GWAS to millions of genomes & PS3 due \\
+
+% Module 4
+\specialrule{.2em}{.1em}{.1em} 
+Next-gen sequencing (NGS) & 02-14 (T) & Introduction to NGS & PS4 out\\
+\cline{2-4}
+& 02-16 (Th) & Short read alignment and variant calling & Proposal due \\
+\cline{2-4} 
+& 02-21 (T) & Functional genomics - RNAseq, ChIPseq &  \\
+\cline{2-4} 
+& 02-23 (Th) & Storing, querying, visualization & \\
+ \cline{2-4} 
+& 02-28 (T) & Long read sequencing technologies & PS4 due  \\
+
+% Module 5
+\specialrule{.2em}{.1em}{.1em} 
+Mutation hunting & 03-02 (Th) & Introduction to genetic mapping & PS5 out \\
+ \cline{2-4} 
+& 03-07 (T) & Filtering and prioritizing variants &  \\
+\cline{2-4}
+& 03-09 (Th) & \emph{De novo} mutations and constraint & PS5 due  \\
+ \cline{2-4} 
+& 03-14 (T) & Interpreting non-coding variants & \\
+\specialrule{.2em}{.1em}{.1em} 
+Final Project & 03-16 (Th) & Project presentations & Project due \\
+\specialrule{.2em}{.1em}{.1em} 
+\end{tabular}
+\end{table}
 
 \end{document}
