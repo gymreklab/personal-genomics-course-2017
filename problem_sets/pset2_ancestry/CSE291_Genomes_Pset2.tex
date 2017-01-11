@@ -34,10 +34,11 @@
 
 \section*{Problem Set 2 - Ancestry}
 
-All homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS2:LASTNAME]} by the beginning of class on \textbf{Tuesday, January 24}. 
+This homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS2:LASTNAME]} by the beginning of class on \textbf{Thursday, January 26}. The assignment is worth 10 points total.
 
 \subsection*{Objectives}
 \begin{itemize}
+\setlength\itemsep{0.0em}
 \item Determine ancestry in homogeneous and admixed genomes.
 \item Predict relationships between related samples.
 \item Impute missing variants using imputation from a reference panel.
@@ -45,7 +46,10 @@ All homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{pur
 
 A description of data files for this problem set and several setup steps can be found at \href{https://gymreklab.github.io/teaching/personal\_genomics/ps2\_resources.html}{PS2 resources}. 
 
-\subsection*{Part I: Analyzing ancestry using principal components analysis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 1: Analyzing ancestry using principal components analysis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Part 1: Analyzing ancestry using principal components analysis (4 points)}
 
 \subsubsection*{Overview}
 
@@ -89,16 +93,16 @@ Copy this to your working directory to edit there at:
 
 \subsubsection*{Exercises}
 \begin{enumerate}
-\item
+\item \textbf{(2 points)}
 Implement PCA on the genotype matrix. You should write a script that takes as input the genotype matrix, sample names, and sample labels, and outputs a scatter plot of the first two principal components of the data, with each sample colored according to its population label. The template script has already been set up to take these inputs and outputs and make the plot, you just need to edit the function \texttt{perform\_pca}. However you are free to write your own script if you prefer. You should submit the path to your PCA script and to the resulting figure.
 
-\item
+\item \textbf{(0.5 points)}
 You should see three major clusters. What populations to those correspond to? Which groups does the first principal component separate? The second?
 
-\item
+\item \textbf{(0.5 points)}
 What population labels should be assigned to NA10847, NA18923, and NA19700?
 
-\item
+\item \textbf{(1 point)}
 The run time of PCA grows by some function of the number of samples (and the number of SNPs, which we assume here is constant). Try running your PCA on sample sizes of 100, 500, 1000, 2000, 2500 individuals. Plot the number of samples vs. the run time and describe the relationship. You'll notice the template script has a parameter \texttt{--num-samples}. You'll also find the UNIX command \texttt{time} useful.
 
 \item \textbf{For fun}: Try including your own genome in the PCA analysis. Do you fall where you expect? You can try plotting lower principal components (e.g. PC2 vs. PC3) to get finer resolution about your ancestry. 
@@ -109,7 +113,10 @@ The run time of PCA grows by some function of the number of samples (and the num
 % NA18923 YRI
 % NA19700 ASW
 
-\subsection*{Part 2: Relative finding}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 2: Relative finding
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Part 2: Relative finding (2 points)}
 
 \subsubsection*{Overview}
 
@@ -138,25 +145,28 @@ This dataset includes autosomal SNPs for 97 individuals. We would like to perfor
 
 \subsubsection*{Exercises}
 \begin{enumerate}
-\item What percent of the genome should be shared at IBD=0, 1, or 2 for a parent-child pair? For siblings? For first cousins?
+\item \textbf{(0.25 points)} What percent of the genome should be shared at IBD=0, 1, or 2 for a parent-child pair? For siblings? For first cousins?
 
-\item Use the plink program to calculate shared IBD for each pair of individuals. An example command is given in the templates directory at:
+\item \textbf{(0.25 points)} Use the plink program to calculate shared IBD for each pair of individuals. An example command is given in the templates directory at:
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} run_ps2_ibd.sh
 \end{Verbatim}
 This is not very computationally intensive, and can probably be run without submitting using SBATCH.
 
-\item Plot percent IBD=0 vs. percent IBD=1 for each pair of samples. Which pairs of samples appear to be a parent and child? Siblings? More distant relatives? 
+\item \textbf{(1 point)} Plot percent IBD=0 vs. percent IBD=1 for each pair of samples. Which pairs of samples appear to be a parent and child? Siblings? More distant relatives? 
 
-\item You'll notice that all samples have some estimated degree of IBD=2, even those that are unrelated. Speculate why this happens.
+\item \textbf{(0.5 points)} You'll notice that all samples have some estimated degree of IBD=2, even those that are unrelated. Speculate why this happens.
 
 \end{enumerate}
 
-\subsection*{Part 3: Imputing missing variants}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 3: Imputing missing variants
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Part 3: Imputing missing variants (4 points)}
 
 \subsubsection*{Overview}
 
-Most often, a genotype file contains incomplete information about an individual's genome. For instance, 23andMe genotypes 1.5 million SNPs, but there are 3 billion bases in the human genome. As we discussed in class, positions in the genome that are in close proximity are often co-inherited, inducing a correlation between nearby positions. If we can learn from a reference population what those correlations are, we can use a process caleld \emph{imputation} to infer the missing genotypes.
+Most often, a genotype file contains incomplete information about an individual's genome. For instance, 23andMe genotypes 1.5 million SNPs, but there are 3 billion bases in the human genome. As we discussed in class, positions in the genome that are in close proximity are often co-inherited, inducing a correlation between nearby positions. If we can learn from a reference population what those correlations are, we can use a process called \emph{imputation} to infer the missing genotypes.
 
 In this problem, we'll perform imputation on the genome of an admixed individual, evaluate imputation performance under different conditions, and use the imputation results to analyze SNPs not included in the original genotype file.
 
@@ -178,17 +188,17 @@ including reference haplotypes, genetic recombination maps, and additional infor
 \subsubsection*{Exercises}
 \begin{enumerate}
 
-\item Use IMPUTE2 to impute variants on chromosome 16 from position 5e6 to 10e6. An example command is given in the templates directory at:
+\item \textbf{(0.5 point)} Use IMPUTE2 to impute variants on chromosome 16 from position 5e6 to 10e6. An example command is given in the templates directory at:
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} run_ps2_impute.sh
 \end{Verbatim}
 Perform imputation using 4 different reference panels: CEU only (European), YRI only (African), CEU+YRI, and all populations except ASW (African American). The example script shows how to access those different reference panels. Which reference panel do you expect to perform the best on an African American genome? Why is it important to include similar population groups to the target genome in the reference panel?
 
-\item How many variants were you able to impute from the original 28,655?
+\item \textbf{(0.5 point)} How many variants were you able to impute from the original 28,655?
 
-\item Compare the imputation results to the true results on the held out SNPs for each reference panel. Report the genotype $r^2$ for each. Do the results match your expectations from the previous problem? The template \texttt{run\_ps2\_impute.sh} contains some commands that may be helpful to combine the various data files needed for this problem.
+\item \textbf{(1 point)} Compare the imputation results to the true results on the held out SNPs for each reference panel. Report the genotype $r^2$ for each. Do the results match your expectations from the previous problem? The template \texttt{run\_ps2\_impute.sh} contains some commands that may be helpful to combine the various data files needed for this problem.
 
-\item The ``legend'' files from the IMPUTE2 reference contain fields reporting the minor allele frequency of each SNP in multiple populations. Determine the genotype $r^2$ between the held out and imputed genotypes for different minor allele frequency thresholds (e.g. $<0.0001$, $<0.001$, $<0.01$, $<0.05$, $<0.1$). How does imputation accuracy compare with minor allele frequency? Why would extremely rare variants be particularly difficult to impute?
+\item \textbf{(2 points)} The ``legend'' files from the IMPUTE2 reference contain fields reporting the minor allele frequency of each SNP in multiple populations. Determine the genotype $r^2$ between the held out and imputed genotypes for different minor allele frequency thresholds (e.g. $<0.0001$, $<0.001$, $<0.01$, $<0.05$, $<0.1$). How does imputation accuracy compare with minor allele frequency? Why would extremely rare variants be particularly difficult to impute?
 
 \end{enumerate}
 
