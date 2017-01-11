@@ -98,9 +98,11 @@ def perform_pca(ref_matrix_norm):
 #    pca = PCA(n_components=2)
 #    pca.fit(ref_matrix_norm.transpose())
 #    return pca.transform(ref_matrix_norm.transpose())
+
 # Alternatively:
 #    ndim = 2
-#    # Get GRM (covariance matrix)                                                                                                                           #    grm = ref_matrix_norm.dot(ref_matrix_norm.transpose())/ref_matrix_norm.shape[1]
+#    # Get GRM (covariance matrix)                                                                                                                           
+#    grm = ref_matrix_norm.dot(ref_matrix_norm.transpose())/ref_matrix_norm.shape[1]
 #    # Get Eigendecomposition - column i is ith eigenvector                                                                                                                                    
 #    evals, evecs = np.linalg.eig(grm)
 #    # sort eigenvalue in decreasing order

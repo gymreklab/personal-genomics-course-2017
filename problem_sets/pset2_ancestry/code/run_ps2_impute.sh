@@ -6,7 +6,7 @@
 #SBATCH --get-user-env
 
 DATADIR=/oasis/projects/nsf/csd524/mgymrek/data/ps2/
-OUTDIR=/oasis/projects/nsf/csd524/mgymrek/ps2/results/
+OUTDIR=/oasis/projects/nsf/csd524/$USER/ps2/results/
 chrom=16
 
 # Run with 4 different reference panels
@@ -31,7 +31,9 @@ paste -d' ' ${OUTDIR}/ps2_impute.phased.ceu.impute2 \
     cut -d' ' -f 2-8,14-16,22-24,30-32 | \
     sort -t' ' -n -k 2 > ${OUTDIR}/ps2_impute.combined
 
-# Analyze imputation results
-./pset2_impute.py \
-    ${OUTDIR}/ps2_impute.compare \
-    ${DATADIR}/imputation/1000GP_Phase3/1000GP_Phase3_chr${chrom}.legend.gz
+# Analyze imputation results - you can run this on the command line without using 
+# slurm. It is shown here to illustrate usage.
+#./pset2_impute.py \
+#    ${OUTDIR}/ps2_impute.combined \
+#    ${DATADIR}/ps2_impute.heldout.gen.gz \
+#    ${DATADIR}/imputation/1000GP_Phase3/1000GP_Phase3_chr${chrom}.legend.gz
