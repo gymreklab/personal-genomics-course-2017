@@ -7,6 +7,7 @@ Add 1 for CEU samples
 Usage: ./add_phenotype_covar.py <labelfile> <phenfile> <adjvalue> > <adjphenfile>
 """
 
+import numpy as np
 import pandas as pd
 import sys
 
@@ -19,8 +20,15 @@ except:
     sys.exit(1)
 
 def AdjustPhenotype(x):
-    if x.pop == "CEU": return x.phen + adjvalue
-    else: return x.phen
+    if x["pop"] == "CEU":
+        return x.phen + adjvalue
+    else:
+        return x.phen
+
+def Standardize(phen):
+    m = np.mean(phen)
+    s = np.sqrt(np.var(phen))
+    return (phen-m)/s
 
 # Read data
 labels = pd.read_csv(labelfile, sep="\t", names=["sample", "pop"])
@@ -29,6 +37,9 @@ phen = pd.read_csv(phenfile, sep=" ", names=["sample", "fam", "phen","x"])
 # Adjust phenotype
 phen = pd.merge(phen, labels, on=["sample"])
 phen["phen"] = phen.apply(lambda x: AdjustPhenotype(x), 1)
+
+# Standardize
+phen["phen"] = Standardize(phen["phen"])
 
 # Output
 phen[["sample","fam","phen"]].to_csv(sys.stdout, index=False, sep=" ")

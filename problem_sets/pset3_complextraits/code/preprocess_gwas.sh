@@ -29,10 +29,11 @@ plink --vcf ${PREFIX}.vcf.gz \
 plink --bfile ${PREFIX} --recode12 --out ${PREFIX}
 
 # Get list of causal SNPs - randomly select from VCF
-zcat ${PREFIX}.vcf.gz | grep -v "^#" | cut -f 3 | shuf | head -n ${numsnps} > ../data/causal.snplist
+vcftools --gzvcf ${PREFIX}.vcf.gz --maf 0.05 --stdout --recode | \
+    grep -v "^#" | cut -f 3 | shuf | head -n ${numsnps} > ../data/causal.snplist
 
 # Simulate phenotype using GCTA
 gcta64 --bfile ${PREFIX} --simu-qt --simu-causal-loci ../data/causal.snplist --simu-hsq 0.8 --simu-rep 1 --out ${PREFIX}.raw
 
 # Add covariate for population
-./add_phenotype_covar.py ../data/CEUTSI.labels ${PREFIX}.raw.phen 0.5 > ${PREFIX}.phen
+./add_phenotype_covar.py ../data/CEUTSI.labels ${PREFIX}.raw.phen 6 > ${PREFIX}.phen
