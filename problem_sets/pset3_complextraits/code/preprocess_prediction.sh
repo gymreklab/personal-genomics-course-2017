@@ -21,7 +21,7 @@ do
 	awk -v"rsid=$rsid" '($3==rsid||$0~/#/)'
     firstline=1
 done < ../data/eyecolor_snps.bed  | \
-    vcf-subset -f -c ../data/CEUYRI.list | bgzip -c > ${PREFIX}_eyecolor.vcf.gz
+    vcf-subset -f -c ../data/CEUTSI.list | bgzip -c > ${PREFIX}_eyecolor.vcf.gz
 
 # Eye color
 firstline=0
@@ -41,5 +41,5 @@ do
 	awk -v"rsid=$rsid" '($3==rsid||$0~/#/)'
     firstline=1
 done < ../data/height_snps.bed  | \
-    vcf-subset -f -c ../data/CEUYRI.list | bgzip -c > ${PREFIX}_height.vcf.gz
+    vcf-subset -f -c ../data/CEUTSI.list | bgzip -c > ${PREFIX}_height.vcf.gz
 
