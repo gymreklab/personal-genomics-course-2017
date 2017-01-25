@@ -2,7 +2,7 @@
 
 #SBATCH -A csd524
 #SBATCH -p compute
-#SBATCH -t 10
+#SBATCH -t 1000
 #SBATCH --get-user-env
 
 /oasis/projects/nsf/csd524/$USER/ps2/code/pset2_pca.py \
