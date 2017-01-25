@@ -36,6 +36,8 @@
 
 This homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS2:LASTNAME]} by the beginning of class on \textbf{Thursday, January 26}. The assignment is worth 10 points total.
 
+Template code is provided for each problem. However, you are free to write your own scripts if you like.
+
 \subsection*{Objectives}
 \begin{itemize}
 \setlength\itemsep{0.0em}
@@ -60,7 +62,7 @@ The first step of our PCA analysis is to construct a genotype matrix, where each
 In the ps2 data directory, you'll find:
 
 \begin{itemize}
-\item The genotype matrix file
+\item The genotype matrix file. Each row gives one SNP and each column gives one sample, with 0, 0.5, and 1 corresponding to 0, 1, or 2 copies of the reference allele. 
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} ps2_pca.genotypes.tab
 \end{Verbatim}
@@ -84,17 +86,25 @@ Copy this to your working directory to edit there at:
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} /oasis/projects/nsf/csd524/$USER/ps2/code/pset2_pca.py
 \end{Verbatim}
+It is a good idea to first look through this script and see what it's doing.
 
 \item An example script for submitting the job to the cluster using SBATCH:
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} run_ps2_pca.sh
+\end{Verbatim}
+
+This can be run at the terminal with the command:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} sbatch run_ps2_pca.sh
 \end{Verbatim}
 \end{itemize}
 
 \subsubsection*{Exercises}
 \begin{enumerate}
 \item \textbf{(2 points)}
-Implement PCA on the genotype matrix. You should write a script that takes as input the genotype matrix, sample names, and sample labels, and outputs a scatter plot of the first two principal components of the data, with each sample colored according to its population label. The template script has already been set up to take these inputs and outputs and make the plot, you just need to edit the function \texttt{perform\_pca}. However you are free to write your own script if you prefer. You should submit the path to your PCA script and to the resulting figure.
+Implement PCA on the genotype matrix. You should write a script that takes as input the genotype matrix, sample names, and sample labels, and outputs a scatter plot of the first two principal components of the data, with each sample colored according to its population label. The template script has already been set up to take these inputs and outputs and make the plot, you just need to edit the function \texttt{perform\_pca}. \textbf{Submit the path to your PCA script and to the resulting figure.}
+
+Hint: first make sure your code will run on a small dataset (e.g. using the \texttt{--num-samples} and \texttt{--num-snps} parameters). Once you're satisfied, use the \texttt{run\_ps2\_pca.sh} script to submit to the cluster to run on all SNPs and samples.
 
 \item \textbf{(0.5 points)}
 You should see three major clusters. What populations to those correspond to? Which groups does the first principal component separate? The second?
@@ -103,7 +113,7 @@ You should see three major clusters. What populations to those correspond to? Wh
 What population labels should be assigned to NA10847, NA18923, and NA19700?
 
 \item \textbf{(1 point)}
-The run time of PCA grows by some function of the number of samples (and the number of SNPs, which we assume here is constant). Try running your PCA on sample sizes of 100, 500, 1000, 2000, 2500 individuals. Plot the number of samples vs. the run time and describe the relationship. You'll notice the template script has a parameter \texttt{--num-samples}. You'll also find the UNIX command \texttt{time} useful.
+The run time of PCA grows by some function of the number of samples (and the number of SNPs, which we assume here is constant). Try running your PCA on sample sizes of 100, 500, 1000, 2000, 2500 individuals. Plot the number of samples vs. the run time and describe the relationship. You'll notice the template script has a parameter \texttt{--num-samples}. You'll also find the UNIX command \texttt{time} useful. Note, if you use sbatch, you can find the output of commands in the log file it produces.
 
 \item \textbf{For fun}: Try including your own genome in the PCA analysis. Do you fall where you expect? You can try plotting lower principal components (e.g. PC2 vs. PC3) to get finer resolution about your ancestry. 
 
@@ -139,7 +149,7 @@ The first 3 are text files that you can view on the command line, e.g. using:
 \color{purple} less -S ps2_ibd.lwk.fam
 \end{Verbatim}
 
-and the last two are binary formats of those files. To read more about plink file formats, see: \href{http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml}{http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml}.
+and the last two are binary formats of those files. To read more about plink file formats, see:\\ \href{http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml}{http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml}.
 
 This dataset includes autosomal SNPs for 97 individuals. We would like to perform relative matching in this dataset to identify pairs of related samples.
 
@@ -151,9 +161,10 @@ This dataset includes autosomal SNPs for 97 individuals. We would like to perfor
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} run_ps2_ibd.sh
 \end{Verbatim}
-This is not very computationally intensive, and can probably be run without submitting using SBATCH.
 
-\item \textbf{(1 point)} Plot percent IBD=0 vs. percent IBD=1 for each pair of samples. Which pairs of samples appear to be a parent and child? Siblings? More distant relatives? 
+Plot percent IBD=0 vs. percent IBD=1 for each pair of samples. (Columns Z0 and Z1 in the plink output .genome file).
+
+\item \textbf{(1 point)}  Which pairs of samples appear to be a parent and child? Siblings? 
 
 \item \textbf{(0.5 points)} You'll notice that all samples have some estimated degree of IBD=2, even those that are unrelated. Speculate why this happens.
 
@@ -183,7 +194,19 @@ Additionally, you'll find IMPUTE2 reference haplotypes in the data directory at:
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} imputation/1000GP_Phase3/*
 \end{Verbatim}
-including reference haplotypes, genetic recombination maps, and additional information about each position. As in pervious problems, we'll focus on chromosome 16 to reduce computation time. You're welcome to perform the analysis on the entire genome if you want.
+including reference haplotypes, genetic recombination maps, and additional information about each position.
+
+Finally, there is a template to help you load the resulting data into python for analysis.
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} pset2_impute_template.py
+\end{Verbatim}
+Copy this to your working directory to edit there at:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} /oasis/projects/nsf/csd524/$USER/ps2/code/pset2_impute.py
+\end{Verbatim}
+It is a good idea to first look through this script and see what it's doing.
+
+As in previous problems, we'll focus on chromosome 16 to reduce computation time. You're welcome to perform the analysis on the entire genome if you want.
 
 \subsubsection*{Exercises}
 \begin{enumerate}
@@ -192,9 +215,11 @@ including reference haplotypes, genetic recombination maps, and additional infor
 \begin{Verbatim}[commandchars=\\\{\}]
 \color{purple} run_ps2_impute.sh
 \end{Verbatim}
-Perform imputation using 4 different reference panels: CEU only (European), YRI only (African), CEU+YRI, and all populations except ASW (African American). The example script shows how to access those different reference panels. Which reference panel do you expect to perform the best on an African American genome? Why is it important to include similar population groups to the target genome in the reference panel?
+Perform imputation using 4 different reference panels: CEU only (European), YRI only (African), CEU+YRI, and all populations except ASW (African American). The example script shows how to access those different reference panels and how to combine the resulting outputs into a convenient format for analysis.
 
-\item \textbf{(0.5 point)} How many variants were you able to impute from the original 28,655?
+Which reference panel do you expect to perform the best on an African American genome? Why is it important to include similar population groups to the target genome in the reference panel?
+
+\item \textbf{(0.5 point)} How many variants are in the input dataset? The imputed dataset?
 
 \item \textbf{(1 point)} Compare the imputation results to the true results on the held out SNPs for each reference panel. Report the genotype $r^2$ for each. Do the results match your expectations from the previous problem? The template \texttt{run\_ps2\_impute.sh} contains some commands that may be helpful to combine the various data files needed for this problem.
 
