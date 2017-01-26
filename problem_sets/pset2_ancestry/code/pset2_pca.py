@@ -79,10 +79,31 @@ def perform_pca(ref_matrix_norm):
     Returns:
         ref_matrix_projection (np.array): Float matrix of data projected onto PCs. size numsamples x numdim (2)
     """
-    ndim = 2
+#    ndim = 2
     # Get GRM (covariance matrix)                            
-    grm = ref_matrix_norm.transpose().dot(ref_matrix_norm)/ref_matrix_norm.shape[0]
+#    grm = ref_matrix_norm.transpose().dot(ref_matrix_norm)/ref_matrix_norm.shape[0]
     # Get Eigendecomposition - column i is ith eigenvector                                 
+#    evals, evecs = np.linalg.eig(grm)
+    # sort eigenvalue in decreasing order
+#    idx = np.argsort(evals)[::-1]
+#    evecs = evecs[:,idx]
+    # sort eigenvectors according to same index
+#    evals = evals[idx]
+    # select the first n eigenvectors (n is desired dimension
+    # of rescaled data array, or dims_rescaled_data)
+#    evecs = evecs[:, :ndim]
+#    return evecs
+
+# Option 2: Using sklearn
+#    pca = PCA(n_components=2)
+#    pca.fit(ref_matrix_norm.transpose())
+#    return pca.transform(ref_matrix_norm.transpose())
+
+# Alternatively:
+    ndim = 2
+    # Get GRM
+    grm = ref_matrix_norm.dot(ref_matrix_norm.transpose())/ref_matrix_norm.shape[1]
+    # Get Eigendecomposition - column i is ith eigenvector
     evals, evecs = np.linalg.eig(grm)
     # sort eigenvalue in decreasing order
     idx = np.argsort(evals)[::-1]
@@ -92,29 +113,8 @@ def perform_pca(ref_matrix_norm):
     # select the first n eigenvectors (n is desired dimension
     # of rescaled data array, or dims_rescaled_data)
     evecs = evecs[:, :ndim]
-    return evecs
-
-# Option 2: Using sklearn
-#    pca = PCA(n_components=2)
-#    pca.fit(ref_matrix_norm.transpose())
-#    return pca.transform(ref_matrix_norm.transpose())
-
-# Alternatively:
-#    ndim = 2
-#    # Get GRM (covariance matrix)                                                                                                                           
-#    grm = ref_matrix_norm.dot(ref_matrix_norm.transpose())/ref_matrix_norm.shape[1]
-#    # Get Eigendecomposition - column i is ith eigenvector                                                                                                                                    
-#    evals, evecs = np.linalg.eig(grm)
-#    # sort eigenvalue in decreasing order
-#    idx = np.argsort(evals)[::-1]
-#    evecs = evecs[:,idx]
-#    # sort eigenvectors according to same index
-#    evals = evals[idx]
-#    # select the first n eigenvectors (n is desired dimension
-#    # of rescaled data array, or dims_rescaled_data)
-#    evecs = evecs[:, :ndim]
-#    ref_matrix_projection = np.dot(evecs.transpose(), ref_matrix_norm).transpose()
-#    return ref_matrix_projection
+    ref_matrix_projection = np.dot(evecs.transpose(), ref_matrix_norm).transpose()
+    return ref_matrix_projection
 
 
 def plot_ref_panel(pc1, pc2, colors, samples, outprefix):
