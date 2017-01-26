@@ -35,7 +35,7 @@
 
 \section*{Problem Set 3 - Complex traits}
 
-This homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS3:LASTNAME]} by the beginning of class on \textbf{Tuesday, February 7}. The assignment is worth 10 points total.
+This homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS3:LASTNAME]} by the beginning of class on \textbf{Thursday, February 9}. The assignment is worth 10 points total.
 
 As in problem set 2, template code is provided for some problems. Using the template code is optional, it is simply there to guide you.
 
@@ -43,7 +43,7 @@ As in problem set 2, template code is provided for some problems. Using the temp
 \begin{itemize}
 \item Perform a basic genome-wide association study (GWAS).
 \item Explore the effect of confounding factors like population structure.
-\item Predict a person's phenotype for a complex trait.
+\item Predict a person's phenotype for a complex trait (eye color).
 \end{itemize}
 
 A description of data files for this problem set and several setup steps can be found at \href{https://gymreklab.github.io/teaching/personal\_genomics/ps3\_resources.html}{PS3 resources}. 
@@ -84,7 +84,6 @@ In the ps3 templates directory, you'll find:
 \end{Verbatim}
 \end{itemize}
 
-
 %\item A script for generating QQ plots from plink results:
 %\begin{Verbatim}[commandchars=\\\{\}]
 %\color{purple} ps3_qqplot.py
@@ -99,7 +98,7 @@ Some SNPs could not be tested, and are reported as "NA". What happened to those 
 Plot the results in the form of a Manhattan plot. You'll notice positions that with many strong signals seemingly forming a vertical line. Describe what is driving that pattern.
 
 \item \textbf{(1 point)} 
-For the purposes of illustration, we will choose a significance threshold of $p<10^{-4}$ to determine genome-wide significance. (Note, the canonical GWAS threshold is $5 \times 10^{-8}$). How many SNPs pass our threshold? (Approximately) How many independent signals does this represent? What if you ignore, the region spanning from chr2:135397569-137621910, which appears to contain multiple signals? Note, you might find the plink \texttt{--clump} option helpful.
+For the purposes of illustration, we will choose a significance threshold of $p<10^{-4}$ to determine genome-wide significance. (Note, the canonical GWAS threshold is $5 \times 10^{-8}$). How many SNPs pass our threshold? (Approximately) How many independent signals does this represent? What if you ignore the region spanning from chr2:135397569-137621910, which appears to contain multiple signals? Note, you might find the plink \texttt{--clump} option helpful.
 
 \item \textbf{(1 point)} Generate a QQ plot of the p-values for each SNP compared to a uniform p-value distribution. Are the p-values well calibrated? Is there any evidence that the study has confounding variables we didn't account for?
 
@@ -124,7 +123,7 @@ Below we'll repeat the analysis, this time accounting for population structure, 
 \subsubsection*{Exercises}
 \begin{enumerate}
 
-\item \textbf{(1 point)} Calculate the top 10 genotype principal components. Plot PC1 vs. PC2 for all samples. How many clusters are there (hard to see, but they're there)? Hint: while we previously wrote code to perform PCA in problem set 2, for this problem set you might find plink's \texttt{--pca} option will save you some time.
+\item \textbf{(1 point)} Calculate the top 10 genotype principal components. Plot PC1 vs. PC2 for all samples. You should see two main groups (the PCA won't separate them that well here)? Hint: while we previously wrote code to perform PCA in problem set 2, for this problem set you might find plink's \texttt{--pca} option will save you some time.
 
 \item \textbf{(1 point)} Repeat the GWAS analysis, now using the top 10 PCs as covariates in the analysis (hint, see plink's \texttt{--covar} option). Regenerate the Manhattan plot and QQ plot.
 
@@ -135,25 +134,84 @@ Below we'll repeat the analysis, this time accounting for population structure, 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Part 3: Risk prediction 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Part 3: Trait prediction (3 points)}
+\subsection*{Part 3: Predicting eye color (3 points)}
 
 \subsubsection*{Overview}
 
-% use snps and effects from dna.land height and eye color
-% also see:
-%https://github.com/joepickrell/pheno-server-21/blob/master/json/AD.json
-% https://github.com/joepickrell/phenopredict21
+In this exercise we'll predict eye color from SNP data. We will be following a model from the \href{https://www.ncbi.nlm.nih.gov/pubmed/20457092}{IrisPlex Paper} and it could be helpful to take a look at that paper. 
+
+We will treat eye color as a case/control phenotype, except with the slight complication that rather than two categories (e.g. disease, not disease), we'll predict three: blue eyes, brown eyes, or other colored eyes. Multinomial regression is a good model for this task.
+
+Walsh 2011 and others have shown that just 6 SNPs can do a pretty good job predicting eye color. They trained the following two models (see their Supplementary Table 3):
+
+\begin{equation}
+\ln(p_{blue}/p_{brown}) = \alpha_1 + \sum_{k}\beta_{1, k}X_k
+\end{equation}
+
+\begin{equation}
+\ln(p_{other}/p_{brown}) = \alpha_2 + \sum_{k}\beta_{2, k}X_k
+\end{equation}
+
+where $\alpha_i$ is an intercept term, $\beta_{i,k}$ is the effect size for model $i$ at the $k$th SNP, and $X_k$ is the number of minor alleles at an individuals genotype for the $k$th SNP (0, 1, or 2). Rearranging these allows us to predict the probability of each class of eye color:
+
+\begin{equation}
+p_{blue} = \frac{e^{\alpha_1 + \sum_k \beta_{1,k}X_k}}{1+e^{\alpha_1 + \sum_k \beta_{1,k}X_k}+e^{\alpha_2 + \sum_k \beta_{2,k}X_k}}
+\end{equation}
+\begin{equation}
+p_{other} = \frac{e^{\alpha_2 + \sum_k \beta_{2,k}X_k}}{1+e^{\alpha_1 + \sum_k \beta_{1,k}X_k}+e^{\alpha_2 + \sum_k \beta_{2,k}X_k}}
+\end{equation}
+\begin{equation}
+p_{brown} = 1-p_{blue}-p_{other}
+\end{equation}
+
+Below is a reproduced table of the model parameters from the 6 predictive SNPs, converted to hg19 coordinates:
+\begin{table}[h!]
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Chromosome & Position & rsid & Minor allele & $\beta_{1}$  & $\beta_{2}$\\
+\hline
+15 & 28365618 & rs12913832 & A & -4.81 & -1.79 \\
+15 & 28230318 & rs1800407 & T & 1.40 & 0.87 \\
+14 & 92773663 & rs12896399 & G & -0.58 & -0.03 \\
+5 & 33951693 & rs16891982 & C & -1,30 & -0,50 \\
+11 & 89011046 & rs1393350 & A & 0.47 & 0,27 \\
+6 & 396321 & rs12203592 & T & 0.70 & 0.73 \\
+\hline
+$\alpha_1=3.94$ & $\alpha_2=0.65$ & & && \\
+\hline
+\end{tabular}
+\end{table}
+
+In the ps3 data directory, you'll find:
+
+\begin{itemize}
+\item The table of parameters above:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} eyecolor_snps_irisplex.bed
+\end{Verbatim}
+
+\item Genotypes for CEU and TSI individuals in VCF format at these 6 SNPs:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} ps3_pred_eyecolor.vcf.gz
+\end{Verbatim}
+\end{itemize}
+
+If you use Python, you might find the VCF parsing library helpful for the exercises below. You can install it by doing:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} pip install --user pyvcf
+\end{Verbatim}
 
 \subsubsection*{Exercises}
 \begin{enumerate}
-\item \textbf{(1 point)} Calculate a polygenic risk score for height for the CEU and TSI populations, using the genome-wide significant SNPs. You might find the script \texttt{run\_ps3\_predict.sh} helpful.
 
-\item \textbf{(1 point)} Convert this to a height prediction based on the population-wide mean height distribution described above.
+\item \textbf{(1 point)} Using the IrisPlex SNPs, calculate probability that each individual in the dataset has blue, brown, or other colored eyes. What do you predict for sample NA12249? Sample NA20509? Sample NA12750?
 
-\item \textbf{(1 point)} Repeat this process to predict eye color of each samples. Which population is more likely to have blue eyes?
+\item \textbf{(1 point)} Calculate the mean probability of blue, brown, or other colored eyes for each population, CEU and TSI. Which group is more likely to have blue eyes? Does this match with what is known about eye color frequencies in those populations?
 
-\item \textbf{(Bonus)} Repeat the trait prediction on your own genome!
+\item \textbf{(0.5 points)} What is the interpretation of the effect sizes? In particular, how can we interpret $\beta_1=-4.81$ for rs12913832?
+
+\item \textbf{(0.5 points)} Look up the top SNP, rs12913832 in dbSNP or on the UCSD Genome Browser. Does this SNP fall in any predicted coding region? Hypothesize how it might be affecting eye color.
 \end{enumerate}
-
 
 \end{document}
