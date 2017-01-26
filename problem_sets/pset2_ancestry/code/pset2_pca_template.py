@@ -84,7 +84,19 @@ def perform_pca(ref_matrix_norm):
     # You might find either one of these functions helpful:
     # np.linalg.eig
     # sklearn.decomposition.PCA
-    return np.zeros((ref_matrix_norm.shape[1], 2))
+    row, col = ref_matrix_norm.shape
+    # shengnan: code borrowed from lecture slide and modify the variant name
+    ref_matrix_t = ref_matrix_norm.transpose()
+    product = ref_matrix_norm.dot(ref_matrix_t)/col
+    evals, evecs = np.linalg.eig(product)
+    idx = np.argsort(evals)[::-1]
+    evecs = evecs[:, idx]
+    # take the top 2 directions
+    evecs_top2 = evecs[:, :2]
+    # make projections on the top 2 directions
+    # projection = ref_matrix_t.dot(evecs_top2)
+    return evecs_top2 #projection
+    # return np.zeros((ref_matrix_norm.shape[1], 2))
     ###### PS2 - Fill this in! ######
 
 def plot_ref_panel(pc1, pc2, colors, samples, outprefix):
