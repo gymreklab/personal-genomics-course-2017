@@ -20,7 +20,7 @@ do
     tabix $args ${KGPREFIX}/ALL.chr${chrom}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz ${chrom}:${start}-${start} | \
 	awk -v"rsid=$rsid" '($3==rsid||$0~/#/)'
     firstline=1
-done < ../data/eyecolor_snps.bed  | \
+done < ../data/eyecolor_snps_irisplex.bed  | \
     vcf-subset -f -c ../data/CEUTSI.list | bgzip -c > ${PREFIX}_eyecolor.vcf.gz
 
 # Eye color
@@ -42,4 +42,3 @@ do
     firstline=1
 done < ../data/height_snps.bed  | \
     vcf-subset -f -c ../data/CEUTSI.list | bgzip -c > ${PREFIX}_height.vcf.gz
-
