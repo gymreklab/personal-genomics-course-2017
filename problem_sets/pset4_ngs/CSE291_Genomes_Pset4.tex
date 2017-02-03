@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+
+% Imports
+\usepackage{hyperref}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{ctable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{lmodern}
+
+% Paragraph spacing
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+
+% Default font
+\renewcommand*{\familydefault}{\sfdefault}
+
+% table lines
+\newcolumntype{?}{!{\vrule width 1pt}}
+
+% hyperlinks
+\hypersetup{
+  breaklinks=true,  % so long urls are correctly broken across lines
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=red,
+  citecolor=red,
+ }
+
+\begin{document}
+
+% Header info
+\textbf{CSE 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS}
+
+\section*{Problem Set 4 - Next-generation sequencing}
+
+This homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS4:LASTNAME]} by the beginning of class on \textbf{Tuesday, February 28}. The assignment is worth 10 points total.
+
+As in previous problem sets, template code is provided for some problems. Using the template code is optional, it is simply there to guide you.
+
+\subsection*{Objectives}
+\begin{itemize}
+\item Gain experience using standard short read alignment, genotyping, and visualization techniques.
+\item Learn how to detect and filter artifacts in alignment or variant calling that can arise from next generation sequencing analysis.
+\item Explore new long read sequencing technologies.
+\end{itemize}
+
+A description of data files for this problem set and several setup steps can be found at \href{https://gymreklab.github.io/teaching/personal\_genomics/ps4\_resources.html}{PS4 resources}. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 1: Sequence alignment and visualization
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Part 1: Sequence alignment and visualization (4 points)}
+\subsubsection*{Overview}
+\subsubsection*{Exercises}
+\begin{enumerate}
+\item \textbf{(0.5 points)} Describe and draw the difference between ``single-end'' and ``paired-end'' sequencing reads.
+
+\item \textbf{(1 point)} Align the reads from the fastq files using bwa-mem and convert the resulting alignment to a BAM file. What percent of reads were aligned?
+
+\item \textbf{(1.5 points)} Now we will do some quality controls on the resulting alignment:
+\begin{itemize}
+	\item Plot a histogram of the coverage per base for the autosomes, chrX, and chrY. Is this a male or female sample? How do you know?
+	\item Plot a histogram of the distance between mate pairs. What is the average? Standard deviation?
+\end{itemize}
+
+\item \textbf{(1 point)} Use samtools tview to visualize the resulting alignment. Navigate to positions XX, XX, and XX. Do these look like homozygous reference, heterozygous, or homozygous non-reference positions? Do any positions look like they are affected by sequencing or alignment artifacts? Explain.
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 2: Writing a simple SNP caller
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Part 2: Writing a simple SNP caller (4 points)}
+\subsubsection*{Overview}
+\subsubsection*{Exercises}
+
+\begin{enumerate}
+\item \textbf{(0.5 point)} Convert the BAM file of your sequence alignment from the last problem to samtools "pileup" format. Describe the resulting format.
+
+\item \textbf{(1.5 points)} Write a SNP caller that takes in the pileup format and outputs a list of putative SNPs. To simplify things, you can restrict to sites with at most 2 alleles present and only run your tool on chromosome 22. Briefly describe your method
+
+\item \textbf{(1 point)} Compare your results to those obtained by the Affy genotype array. Based on this comparison, what is your accuracy rate? False positive rate? False negative rate? How does your accuracy change if you restrict to loci covered by at least 5 reads? 10 reads? 20?
+
+\item \textbf{(1 point)} Examine, for instance using samtools tview, 2 cases each of false negative calls or false positive calls. Hypothesize where your SNP caller went wrong.
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 3: Long-read technologies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Part 3: Long read technologies (2 points)}
+\subsubsection*{Overview}
+\subsubsection*{Exercises}
+\begin{enumerate}
+	\item \textbf{(1 point)} % Something using 10X online browser for na12878. compare to seq data we had before.
+	\item \textbf{(1 point)} % Example analysis of a Nanopore read. blast it. talk about advantages/disadvantages
+\end{enumerate}
+
+
+\end{document}
