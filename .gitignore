@@ -9,3 +9,7 @@
 pset1_figures.pdf
 data/
 testdata/
+*.pyc
+ps2_pca.pdf
+scratch.py
+test_pca.py
