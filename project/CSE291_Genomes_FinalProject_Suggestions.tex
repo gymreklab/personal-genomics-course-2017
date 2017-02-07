@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+
+% Imports
+\usepackage{hyperref}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{ctable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+% Paragraph spacing
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+
+% Default font
+\renewcommand*{\familydefault}{\sfdefault}
+
+% table lines
+\newcolumntype{?}{!{\vrule width 1pt}}
+
+% hyperlinks
+\hypersetup{
+  breaklinks=true,  % so long urls are correctly broken across lines
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=red,
+  citecolor=red,
+ }
+
+\begin{document}
+
+% Header info
+\textbf{CSE 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS - PROJECT SUGGESTIONS}
+
+\section*{Project suggestions}
+
+\begin{itemize}
+	\item Comparing existing tools
+	\begin{itemize}
+		\item Explore risk prediction tools/methods, and the effect of various methods for controlling for ancestry and linkage disequilibrium.
+		\item Evaluate and compare different methods for annotating non-coding variants. 
+	\end{itemize}
+	\item Prototype a novel bioinformatics tool
+	\begin{itemize}
+		\item Genotyping repeats (e.g. STRs, VNTRs, Alu/Line) from long-read or synthetic long read technologies (10X, Nanopore)
+		\item Detecting mosaicism at complex variants (e.g. STRs) from next-generation sequencing data
+	\end{itemize}
+	\item A visualization tool for making genomic data more accessible to non-experts
+	\begin{itemize}
+		\item Visualizing annotations from VCF files (e.g. see \href{http://vcf.iobio.io/}{http://vcf.iobio.io/} for inspiration)
+		\item Choose a trait not already presented by 23andMe or DNA.land, and create a web page predicting a person's trait/risk for a complex trait that provides a tutorial behind the genetics of the trait and a visualization of the contribution of different SNPs.
+		\item A web page for use in forensics, that predicts relevant traits (e.g. ancestry, eye color, skin color, or even height and more complex phenotypes) from a genotype file, along with explanations for lay people.
+	\end{itemize}
+	\item Novel analysis of genomic data
+	\begin{itemize}
+		\item (idea from Stanford course): tool to simulate "offspring" from a potential "mating" between two genomes. Analyze distribution of traits in siblings.
+		\item Explore importance of non-coding annotations using variance partitioning.
+	\end{itemize}
+\end{itemize}
+
+\section*{Public datasets}
+
+The following are public datasets that are available for the project:
+\begin{itemize}
+	\item The 1000 Genomes Project \href{http://www.internationalgenome.org/}{http://www.internationalgenome.org/} Sequencing data and variant calls for about 3,000 samples worldwide
+	\item the Simons Genome Diversity Project \href{https://www.simonsfoundation.org/life-sciences/simons-genome-diversity-project-dataset/}{https://www.simonsfoundation.org/life-sciences/simons-genome-diversity-project-dataset/} 300 high coverage whole genomes from diverse population groups. 
+	\item The ENCODE Project \href{https://www.genome.gov/10005107/}{https://www.genome.gov/10005107/} Histone modifications, transcription factor, expression, and more data from a variety of human cell types.
+	\item The GTEx Project \href{gtexportal.org}{gtexportal.org}. Expression data and QTLs from hundreds of human cell types.
+	\item Familinx \href{http://www.familinx.org/}{http://www.familinx.org/}. Pedigree info for millions of individuals.
+\end{itemize}
+
+\end{document}
