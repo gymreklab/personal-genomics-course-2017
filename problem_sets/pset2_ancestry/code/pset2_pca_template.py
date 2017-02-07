@@ -23,6 +23,7 @@ import pandas as pd # TODO maybe a way to load matrix without pandas
 from sklearn.decomposition import PCA
 import sys
 import vcf
+import time
 
 pop_to_color = {
     "ACB": "blue",
@@ -92,10 +93,10 @@ def perform_pca(ref_matrix_norm):
     idx = np.argsort(evals)[::-1]
     evecs = evecs[:, idx]
     # take the top 2 directions
-    evecs_top2 = evecs[:, :2]
+    evecs_top2 = evecs[:,:2]
     # make projections on the top 2 directions
-    # projection = ref_matrix_t.dot(evecs_top2)
-    return evecs_top2 #projection
+    projection = ref_matrix_t.dot(evecs_top2)
+    return projection
     # return np.zeros((ref_matrix_norm.shape[1], 2))
     ###### PS2 - Fill this in! ######
 
@@ -174,11 +175,16 @@ def main():
     ref_matrix_norm = normalize_snp_matrix(ref_matrix)
 
     sys.stderr.write("[pset2_pca.py] Perform PCA...\n")
+    start = time.clock()
     ref_matrix_projection = perform_pca(ref_matrix_norm)
+    end = time.clock()
+    print "time is %f s" % (end-start)
+    #pc1, pc2 = perform_pca(ref_matrix_norm)
 
     sys.stderr.write("[pset2_pca.py] Plot reference panel...\n")
     plot_ref_panel(ref_matrix_projection[:,0], ref_matrix_projection[:, 1], \
                    [pop_to_color[pop] for pop in ref_labels], sample_labels, args.out)
+    #plot_ref_panel(pc1, pc2,[pop_to_color[pop] for pop in ref_labels], sample_labels, args.out)
 
 if __name__ == "__main__":
     main()
