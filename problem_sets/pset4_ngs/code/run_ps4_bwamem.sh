@@ -15,5 +15,3 @@ FQ2=${DATADIR}/SRR622457_2.fastq.gz
 # Convert to BAM, note sam is truncated but we'll just use a subset?
 cat ${DATADIR}/NA12878.sam | grep -v "SRR622457\.68907082" | \
     samtools view -bS - > ${DATADIR}/NA12878.bam
-
-# Sort
