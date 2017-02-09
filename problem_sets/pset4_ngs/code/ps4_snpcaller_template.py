@@ -49,24 +49,6 @@ def GetSnpCall(ref, bases):
     genotype1 = ref
     genotype2 = ref
     ##########################
-    # MGYMREK answer
-    # Calculate probabilities
-    p_ref_given_AA = 1-PROB_ERROR
-    p_alt_given_AA = PROB_ERROR
-    p_ref_given_BB = PROB_ERROR
-    p_alt_given_BB = 1-PROB_ERROR
-    p_ref_given_AB = 0.5*p_ref_given_AA + 0.5*p_ref_given_BB
-    p_alt_given_AB = 0.5*p_alt_given_AA + 0.5*p_alt_given_BB
-    log_pAA = basecounts[ref]*np.log(p_ref_given_AA) + basecounts[alt]*np.log(p_alt_given_AA)
-    log_pAB = basecounts[ref]*np.log(p_ref_given_AB) + basecounts[alt]*np.log(p_alt_given_AB)
-    log_pBB = basecounts[ref]*np.log(p_ref_given_BB) + basecounts[alt]*np.log(p_alt_given_BB)
-    # Get max score and genotype
-    genotypes = [(ref, ref), (ref, alt), (alt, alt)]
-    scores = [log_pAA, log_pAB, log_pBB]
-    genotype1, genotype2 = genotypes[scores.index(max(scores))]
-    best_score = max(scores)
-    score = -1*np.log10((1-np.exp(best_score)/np.sum(np.exp(scores))))
-    ##########################
     return [genotype1, genotype2], score, alt, afreq
 
 line = sys.stdin.readline()
