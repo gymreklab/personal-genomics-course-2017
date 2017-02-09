@@ -17,3 +17,4 @@ samtools view ${CRAMFILE} chr1 | cut -f 9 | sort | uniq -c | tr -s ' ' '\t' | se
 
 # Look at example reads
 # samtools view $CRAMFILE chr1:949140-949150
+# samtools tview ${CRAMFILE} ${FAREF}
