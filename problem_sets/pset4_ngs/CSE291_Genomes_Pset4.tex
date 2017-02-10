@@ -39,10 +39,12 @@ This homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{pu
 
 As in previous problem sets, template code is provided for some problems. Using the template code is optional, it is simply there to guide you.
 
+\texbf{For all plots, please include the plot in the writeup. For code, please paste the relevant snippets that you wrote into the writeup.}
+
 \subsection*{Objectives}
 \begin{itemize}
 \item Gain experience using standard short read alignment, genotyping, and visualization techniques.
-\item Learn how to detect and filter artifacts in alignment or variant calling that can arise from next generation sequencing analysis.
+\item Learn how to detect artifacts in alignment or variant calling that can arise from next generation sequencing analysis.
 \item Explore new long read sequencing technologies.
 \end{itemize}
 
@@ -53,19 +55,90 @@ A description of data files for this problem set and several setup steps can be 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Part 1: Sequence alignment and visualization (4 points)}
 \subsubsection*{Overview}
+
+In this problem, we'll get comfortable dealing with standard next-generation sequencing file formats and command line tools. We'll be analyzing the genome of sample NA12878, perhaps the most sequenced genome in the world and a commonly used standard for evaluating variant callers. We'll be primarily working with samtools. Some example samtools commands, and other helpful command line tips, are given in the slides for lecture 11.
+
+In the ps4 data directory, you'll find sequence alignments for NA12878 in CRAM format, aligned to the GRCh38 (hg38) reference genome, along with accompanying index files:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} NA12878.alt_bwamem_GRCh38DH.20150706.CEU.illumina_platinum_ped.cram
+\color{purple} NA12878.alt_bwamem_GRCh38DH.20150706.CEU.illumina_platinum_ped.cram.crai
+\end{Verbatim}
+
+You will also find the hg38 reference genome:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} GRCh38_full_analysis_set_plus_decoy_hla.fa
+\end{Verbatim}
+
+The \href{https://samtools.github.io/hts-specs/SAMv1.pdf}{SAM Specification} will provide a helpful reference for how to interpret SAM, BAM, and CRAM files. We'll also talk extensively about the different file formats in class.
+
 \subsubsection*{Exercises}
 \begin{enumerate}
 \item \textbf{(0.5 points)} Describe and draw the difference between ``single-end'' and ``paired-end'' sequencing reads.
 
-\item \textbf{(1 point)} Align the reads from the fastq files using bwa-mem and convert the resulting alignment to a BAM file. What percent of reads were aligned?
+\item \textbf{(1 point)} Read alignments for sample NA12878 are available in \href{https://samtools.github.io/hts-specs/CRAMv3.pdf}{CRAM} format at the path specified above. You can use samtools to view all reads, or only reads in certain locations. e.g.:
 
-\item \textbf{(1.5 points)} Now we will do some quality controls on the resulting alignment:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} samtools view $CRAMFILE chr1:949140-949150
+\end{Verbatim}
+
+Note, this command will only work on CRAM (or BAM) files that have been sorted and indexed (this one has been already). Let's take a look at some reads:
 \begin{itemize}
-	\item Plot a histogram of the coverage per base for the autosomes, chrX, and chrY. Is this a male or female sample? How do you know?
-	\item Plot a histogram of the distance between mate pairs. What is the average? Standard deviation?
+	\item For read "ERR194147.1761673", what does a CIGAR score of "23M4D78M" mean?
+	\item For read "ERR194147.1761658", what does a CIGAR score of "101M" mean?
+	\item At what position do the two mates with ID "ERR194147.1761677" map? % 949089 949055
+	\end{itemize}
+
+
+% reads have been aligned, just use samtools to sort and index. answer a question or two about the bam file. or do cram to bam
+% samtools view /oasis/projects/nsf/csd524/mgymrek/ps4/results/NA12878.sorted.bam 1:43720-43750
+% interpret "cigar" score for SRR622457.24597 (101M)
+% interpret "cigar" score for SRR622457.24405 (71M2I28M)
+% where does mate pair of SRR622457.24405 map? 1:43726, 1:43469
+
+\item \textbf{(1 point)} Now we will do some quality controls on the resulting alignment:
+\begin{itemize}
+	\item Plot a histogram of the coverage per base for the chromosome 1, chrX, and chrY. Is this a male or female sample? How do you know? How can you explain that some reads were mapped to chromosome Y?
+
+	Hint: samtools mpileup command can be used to pull out the coverage for each base, e.g.:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} samtools mpileup -r chr1 ${CRAMFILE} | cut -f 4 
+\end{Verbatim}
+	will give you the coverage at each base in chromosome 1 only. See the lecture 11 slides for helpful UNIX tips in dealing with this data. 
+
+	\item Plot a histogram of template length for each mate pair mapped to chromosome 1. Explain what this number means. What is the average? Standard deviation? Do you notice any artifacts in your histogram? Hint: what's going on with pairs with a template length "0"? 
+
+	Hint: the 9th column of the CRAM file gives the template length:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} samtools view ${CRAMFILE} chr1 | cut -f 9
+\end{Verbatim}
+
 \end{itemize}
 
-\item \textbf{(1 point)} Use samtools tview to visualize the resulting alignment. Navigate to positions XX, XX, and XX. Do these look like homozygous reference, heterozygous, or homozygous non-reference positions? Do any positions look like they are affected by sequencing or alignment artifacts? Explain.
+\item \textbf{(1 point)} Use samtools tview to visualize the resulting alignment:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} samtools tview ${CRAMFILE} ${REFFASTA}
+\end{Verbatim}
+
+Navigate to positions chr1:926250, chr1:1035844, and chr1:1056421. Do these look like heterozygous or homozygous SNPs or indels? Now navigate to chr1:1129961. You'll find this region is pretty messy. Hypothesize what's going on there.
+% chr1:926250 homozygous non-ref A (ref=G)
+% chr1:1035844 heterozygous A (ref), G (nonref)
+% chr1:1056421 deletion of CGGGTA
+
+\item \textbf{(0.5 points)} Use samtools view to look at reads that could not be successfully aligned to the reference genome:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} samtools view -f 4 ${CRAMFILE} | less -S
+\end{Verbatim}
+Hypothesize possible reasons these reads couldn't be aligned.
+
+Now look at a read that has many alternate mapping locations listed (see the XA tag). For instance:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} samtools view ${CRAMFILE} | grep "ERR194147.755144932"
+\end{Verbatim}
+Hypothesize where this read is coming from, and why it might map to multiple locations in the genome.
 
 \end{enumerate}
 
@@ -74,16 +147,54 @@ A description of data files for this problem set and several setup steps can be 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Part 2: Writing a simple SNP caller (4 points)}
 \subsubsection*{Overview}
+
+We'll be working with the same data files as in the above problem, namely the sequence alignment in CRAM format and the human reference genome for build hg38. We'll also use a previously published gold standard set of SNP calls:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} HG001_GRCh38_GIAB_highconf_CG-IllFB-IllGATKHC
+\color{purple} -Ion-10X-SOLID_CHROM1-X_v.3.3.2_highconf_PGandRTGphasetransfer.vcf.gz
+\end{Verbatim}
+
+This has been converted into a more convenient tab-delimited format here:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} NIST_NA12878_hg38_chr22.tab
+\end{Verbatim}
+
+
+In the ps4 templates directory, you'll find template scripts for implementing and running your SNP caller, as well as a script to compare your SNP calls to previously published calls.
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} ps4_snpcaller_template.py
+\color{purple} run_ps4_snpcaller.sh
+\color{purple} ps4_comparesnps_template.py
+\color{purple} run_ps4_comparesnps.sh
+\end{Verbatim}
+
 \subsubsection*{Exercises}
 
 \begin{enumerate}
-\item \textbf{(0.5 point)} Convert the BAM file of your sequence alignment from the last problem to samtools "pileup" format. Describe the resulting format.
+\item \textbf{(0.5 point)} Convert sequences from chromosome 22 of the BAM file of your sequence alignment from the last problem to samtools "pileup" format. Describe the resulting format. How big is this file?
 
-\item \textbf{(1.5 points)} Write a SNP caller that takes in the pileup format and outputs a list of putative SNPs. To simplify things, you can restrict to sites with at most 2 alleles present and only run your tool on chromosome 22. Briefly describe your method
+This example command can get you started:
+\begin{Verbatim}[commandchars=\\\{\}]
+\color{purple} samtools mpileup -r chr22 -f ${REFFASTA} ${CRAMFILE} > ${RESULTS}/NA12878.chr22.pileup
+\end{Verbatim}
 
-\item \textbf{(1 point)} Compare your results to those obtained by the Affy genotype array. Based on this comparison, what is your accuracy rate? False positive rate? False negative rate? How does your accuracy change if you restrict to loci covered by at least 5 reads? 10 reads? 20?
+\item \textbf{(1.5 points)} Write a SNP caller that takes in the pileup format and outputs a list of putative SNPs. 
+To work with templates for the next part, your script should output columns: chromosome, position, reference allele, alternate allele, coverage, score, alternate allele frequency, genotype (allele 1), genotype (allele 2).
 
-\item \textbf{(1 point)} Examine, for instance using samtools tview, 2 cases each of false negative calls or false positive calls. Hypothesize where your SNP caller went wrong.
+Here is an example output (numbers are fake though):
+\begin{Verbatim}[commandchars=\\\{\}]
+chr22 200 G A 100 5.2 0.45 A G
+\end{Verbatim}
+
+To simplify things, you can restrict to sites with no insertions or deletions. You may also ignore sites with more than 2 alleles present. The template file ps4\_snpcaller\_template.py is given to get you started. Look in that file for the place you should fill in with your SNP caller code. The file run\_ps4\_snpcaller.sh shows how to run this script, and already deals with filtering indels.
+
+Briefly describe your method. Note, you can define a score however you want, as long as you describe what you did and it's reasonable. How many homozygous reference, heterozygous, and homozygous non-reference sites did you find?
+
+\textbf{NOTE: if your solution beats mine (shouldn't be that hard to do) for overall accuracy, you'll get 1 point extra credit!}
+
+\item \textbf{(1 point)} Compare your results to those obtained by the NIST gold standard. Based on this comparison, what is your accuracy rate overall? At heterozygous SNPs? At homozygous SNPs? How does your accuracy change if you restrict to loci covered by at least 1 read? 5 reads? 10 reads? 20? Is your score correlated with accuracy? You may find the template run\_ps4\_comparesnps.sh and ps4\_comparesnps\_template.py helpful. These scripts are mostly complete, but you may want to tweak them e.g. based on your score.
+
+\item \textbf{(1 point)} Examine, for instance using samtools tview, 3 cases of SNPs you got ``wrong''. Hypothesize where your SNP caller went wrong, or whether you think you are actually correct! If you use tview, include screenshots in your writeup.
 
 \end{enumerate}
 
@@ -94,9 +205,18 @@ A description of data files for this problem set and several setup steps can be 
 \subsubsection*{Overview}
 \subsubsection*{Exercises}
 \begin{enumerate}
-	\item \textbf{(1 point)} % Something using 10X online browser for na12878. compare to seq data we had before.
-	\item \textbf{(1 point)} % Example analysis of a Nanopore read. blast it. talk about advantages/disadvantages
-\end{enumerate}
+	\item \textbf{(0.5 points)} 10X Genomics has a freely available browser: \href{http://loupe.10xgenomics.com/}{http://loupe.10xgenomics.com/}. Navigate to the whole genome of NA12878. In the "structural variants" view, navigate to position "chr7:54,202,001-54,402,001;chr7:54,289,009-54,489,009". Describe what is being displayed by the heatmap plots. What seems to be going on at this locus? What about chr3:63,850,233-63,989,138?
 
+	Now, for the chr3 locus, go to the "linked reads" view. Hypothesize why, or investigate using loupe or another means, why in several places there are large piles of gray (unphased) reads that could not be confidently phased onto either haplotype?
+
+	\item \textbf{(0.5 points})}
+	You are designing a 10X experiment. You have available 1.2 million barcodes. You would like to use enough input DNA such that each barcode will correspond to at most 10 molecules. How many molecules should you load onto the sequencer?
+
+	\item \textbf{(0.5 points})}
+	The sequencer will generate 250 million reads that are 100bp each. What will be the average coverage of each molecule? The average overall coverage (assuming an average molecule size of 50kb and a genome size of 3 billion base pairs)?
+
+
+	\item \textbf{(0.5 points)} Nanopore now offers 3 different sequencers: \href{https://nanoporetech.com/how-it-works}{https://nanoporetech.com/how-it-works} in increasing order of capacity (the SmidgION, MinION, PromethION). Name one potential application (you can get creative) of each.
+\end{enumerate}
 
 \end{document}
