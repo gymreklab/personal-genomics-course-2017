@@ -1,0 +1,74 @@
+\documentclass[12pt]{article}
+
+% Imports
+\usepackage{hyperref}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{ctable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{lmodern}
+
+% Paragraph spacing
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+
+% Default font
+\renewcommand*{\familydefault}{\sfdefault}
+
+% table lines
+\newcolumntype{?}{!{\vrule width 1pt}}
+
+% hyperlinks
+\hypersetup{
+  breaklinks=true,  % so long urls are correctly broken across lines
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=red,
+  citecolor=red,
+ }
+
+\begin{document}
+
+% Header info
+\textbf{CSE 291 - PERSONAL GENOMICS FOR BIOINFORMATICIANS}
+
+\section*{Problem Set 5 - Mutation hunting}
+
+This homework should be sent to mgymrek@ucsd.edu with subject line \textcolor{purple}{[CSE291 PS5:LASTNAME]} by the beginning of class on \textbf{Thursday, March 9}. The assignment is worth 10 points total.
+
+As in previous problem sets, template code is provided for some problems. Using the template code is optional, it is simply there to guide you.
+
+\textbf{For all plots, please include the plot in the writeup. For code, please paste the relevant snippets that you wrote into the writeup.}
+
+\subsection*{Objectives}
+\begin{itemize}
+\item Gain experience with genetic mapping.
+\item Learn how to use methods for filtering and prioritizing variants in medical genetics studies.
+\end{itemize}
+
+A description of data files for this problem set and several setup steps can be found at \href{https://gymreklab.github.io/teaching/personal\_genomics/ps5\_resources.html}{PS5 resources}. 
+
+\subsection*{Overview}
+
+
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+
+\item \textbf{(2 points)} For a single patient (Sample ID XX), how many candidate genes have at least one loss of function mutation (nonsense or frameshift)?
+
+\item \textbf{(2 points)} Rank each gene by (i) the number of patients with a loss of function mutation (nonsense or frameshift) and alternatively by (ii) the number of patients with a missense mutation. Report the top 10 genes and number of each type of mutation. Where does the disease gene (\emph{MLL2}) rank on your list?
+
+\item \textbf{(2 points)} Repeat the above, now filtering out any mutations that are seen in the ExAC dataset of 65,000 control exomes. Report the top 10 genes and number of each type of mutation. Where does \emph{MLL2} rank?
+
+\item \textbf{(2 points)} How many \emph{MLL2} loss of function mutations are present in ExAC that are indistinguishable from disease mutations? What are their allele frequencies?
+
+\item \textbf{(2 points)} Using the provided sequence of the canonical \emph{MLL2} transcript and the given per-base mutation probabilities, calculate the expected incidence of Kabuki Syndrome. Does it match known incidence (1 in 32,000)?
+
+\end{enumerate}
+
+\subsection*{Acknowledgements}
+This problem set is based on a set of exercises designed by Vikas Bansal.
+\end{document}
