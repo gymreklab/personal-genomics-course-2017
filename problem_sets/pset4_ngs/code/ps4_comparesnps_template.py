@@ -31,9 +31,8 @@ def main():
 
     # Merge - only on places where NIST has a call. Use how="outer" to include all positions
     compare = pd.merge(nist, snpcalls, on=["chrom", "pos"], how="left")
-
-    # Make sure ref alleles match
-    compare = compare[compare["ref_x"]==compare["ref_y"]]
+    # Ignore indels
+    compare = compare[(compare["nist1"].apply(len)==1) & (compare["nist2"].apply(len)==1)]
 
     # Overall accuracy rate
     acc = np.mean(compare.apply(GetCorrect, 1))
@@ -48,7 +47,7 @@ def main():
     print "Accuracy at homs: %s"%acchom
 
     # Acc by coverage
-    for covthresh in [5, 10, 20]:
+    for covthresh in [1, 5, 10, 20]:
         acccov = np.mean(compare[compare["coverage"]>=covthresh].apply(GetCorrect, 1))
         print "Accuracy at cov >=%s, %s"%(covthresh, acccov)
 
